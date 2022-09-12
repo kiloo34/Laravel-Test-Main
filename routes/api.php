@@ -18,7 +18,11 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
+Route::middleware(['auth', 'admin'])->group(function () {
+    Route::post('/books', 'BooksController@store');
+    Route::post('/books/{id}/reviews', 'BooksReviewController@store');
+    Route::delete('/books/{bookId}/reviews/{reviewId}', 'BooksReviewController@destroy');
+});
+
 Route::get('/books', 'BooksController@index');
-Route::post('/books', 'BooksController@store');
-Route::post('/books/{id}/reviews', 'BooksReviewController@store');
-Route::delete('/books/{bookId}/reviews/{reviewId}', 'BooksReviewController@destroy');
+// Route::post('/books/{id}/reviews', 'BooksReviewController@store');
